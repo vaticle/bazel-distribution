@@ -17,6 +17,7 @@
 # under the License.
 #
 
+_DEPLOY_MAVEN_RELEASE_REPO_KEY = "DEPLOY_MAVEN_RELEASE_REPO"
 
 def _parse_maven_coordinates(coordinates_string, enforce_version_template=True):
     coordinates = coordinates_string.split(':')
@@ -350,6 +351,10 @@ def _deploy_maven_impl(ctx):
     src_jar_link = "lib.srcjar"
     pom_xml_link = ctx.attr.target[MavenDeploymentInfo].pom.basename
 
+    release_repo = ctx.attr.release
+    if _DEPLOY_MAVEN_RELEASE_REPO_KEY in ctx.var:
+        release_repo = ctx.var[_DEPLOY_MAVEN_RELEASE_REPO_KEY]
+
     ctx.actions.expand_template(
         template = ctx.file._deploy_script_template,
         output = deploy_maven_script,
@@ -358,7 +363,7 @@ def _deploy_maven_impl(ctx):
             "$SRCJAR_PATH": src_jar_link,
             "$POM_PATH": pom_xml_link,
             "{snapshot}": ctx.attr.snapshot,
-            "{release}": ctx.attr.release
+            "{release}": release_repo,
         }
     )
 
