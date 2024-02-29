@@ -32,6 +32,9 @@ bzl_library(
         "@rules_python//:version.bzl",
         "@bazel_skylib//lib:versions",
     ],
+    deps = [
+        "@rules_python//python:defs_bzl",
+    ],
     visibility = ["//visibility:public"]
 )
 

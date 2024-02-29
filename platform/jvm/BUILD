@@ -18,7 +18,7 @@
 #
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
-load("@io_bazel_rules_kotlin//kotlin:kotlin.bzl", "kt_jvm_library")
+load("@io_bazel_rules_kotlin//kotlin:jvm.bzl", "kt_jvm_library")
 
 bzl_library(
     name = "lib",

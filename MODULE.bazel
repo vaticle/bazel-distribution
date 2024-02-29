@@ -1,0 +1,73 @@
+module(
+    name = "vaticle_bazel_distribution",
+)
+
+bazel_dep(name = "rules_pkg", version = "0.10.1")
+bazel_dep(
+    name = "rules_kotlin",
+    version = "1.9.0",
+    repo_name = "io_bazel_rules_kotlin",
+)
+bazel_dep(name = "rules_rust", version = "0.40.0")
+
+rust = use_extension("@rules_rust//rust:extensions.bzl", "rust")
+rust.toolchain(
+    edition = "2021",
+    versions = ["1.70.2"],
+)
+use_repo(rust, "rust_toolchains")
+
+register_toolchains("@rust_toolchains//:all")
+
+bazel_dep(name = "rules_jvm_external", version = "6.0")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+maven.install(
+    artifacts = [
+        "com.eclipsesource.minimal-json:minimal-json:0.9.5",
+        "com.electronwill.night-config:core:3.6.5",
+        "com.electronwill.night-config:toml:3.6.5",
+        "com.google.http-client:google-http-client:1.34.2",
+        "info.picocli:picocli:4.3.2",
+        "org.apache.commons:commons-compress:1.21",
+        "org.jsoup:jsoup:1.16.1",
+        "org.zeroturnaround:zt-exec:1.10",
+    ],
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    strict_visibility = True,
+    version_conflict_policy = "pinned",
+)
+use_repo(
+    maven,
+    "maven",
+)
+
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
+bazel_dep(name = "stardoc", version = "0.6.2", repo_name = "bazel_stardoc")
+bazel_dep(name = "rules_python", version = "0.31.0")
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    python_version = "3.11",
+)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "vaticle_bazel_distribution_pip",
+    python_version = "3.11",
+    requirements_lock = "//pip:requirements.txt",
+)
+pip.parse(
+    hub_name = "vaticle_dependencies_tool_docs",
+    python_version = "3.11",
+    requirements_lock = "//docs:python/requirements.txt",
+)
+pip.parse(
+    hub_name = "vaticle_bazel_distribution_uploader",
+    python_version = "3.11",
+    requirements_lock = "//common/uploader:requirements.txt",
+)
+use_repo(pip, "vaticle_bazel_distribution_pip", "vaticle_bazel_distribution_uploader", "vaticle_dependencies_tool_docs")

@@ -19,7 +19,7 @@
 # under the License.
 #
 
-exports_files(["cpp/doxyfile.template"])
+exports_files(["cpp/doxyfile.template", "python/requirements.txt"])
 
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@vaticle_dependencies_tool_docs//:requirements.bzl", docs_requirement = "requirement")

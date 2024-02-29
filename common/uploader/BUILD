@@ -18,6 +18,8 @@
 #
 load("@vaticle_bazel_distribution_uploader//:requirements.bzl", cloudsmith_requirement = "requirement")
 
+exports_files(["requirements.txt"])
+
 py_library(
     name = "uploader",
     srcs = glob(["*.py"]),

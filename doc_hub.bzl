@@ -47,8 +47,8 @@ load("//common/tgz2zip:rules.bzl", _tgz2zip = "tgz2zip")
 
 load("//crates:rules.bzl", _assemble_crate = "assemble_crate", _deploy_crate = "deploy_crate")
 
-load("//docs/cpp:rules.bzl", _doxygen_docs = "doxygen_docs")
-load("//docs/python:rules.bzl", _sphinx_docs = "sphinx_docs")
+load("//docs:cpp/rules.bzl", _doxygen_docs = "doxygen_docs")
+load("//docs:python/rules.bzl", _sphinx_docs = "sphinx_docs")
 
 load("//gcp:rules.bzl", _assemble_gcp = "assemble_gcp")
 
